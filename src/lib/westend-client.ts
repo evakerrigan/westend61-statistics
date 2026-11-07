@@ -74,22 +74,17 @@ export type WestendSession = {
 };
 
 /**
- * Removes inline event handlers (`onload="…"`, `onsubmit="…"`) from a page.
- * Parsed pages never run them, but the extension's Content Security Policy
- * still logs a warning for each one.
+ * Turns inline event handlers (`onload="…"`, `onclick="…"`) into harmless
+ * `data-on…` attributes. Parsed pages never run them, but the extension's
+ * Content Security Policy still logs an error for each one when the page is
+ * parsed. A plain text replace, not a tag matcher: attributes before the
+ * handler may hold `>` (HTML tooltips like `data-bs-title="<b>…</b>"`), and
+ * HTML also allows `/` and quotes right before an attribute name.
  */
-const INLINE_HANDLER =
-  /(<[a-z][^>]*?)\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi;
+const INLINE_HANDLER = /([\s/"'])on([a-z]+\s*=)/gi;
 
-const stripInlineHandlers = (html: string) => {
-  // One pass removes one handler per tag; repeat for tags with several.
-  let previous;
-  do {
-    previous = html;
-    html = html.replace(INLINE_HANDLER, '$1');
-  } while (html !== previous);
-  return html;
-};
+const stripInlineHandlers = (html: string) =>
+  html.replace(INLINE_HANDLER, '$1data-on$2');
 
 /** Login pages: Westend61 redirects there when the session has expired. */
 const isLoginUrl = (url: string) => /\/login\b|\/auth\b/i.test(url);

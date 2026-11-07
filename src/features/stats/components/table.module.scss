@@ -272,14 +272,15 @@
   }
 }
 
-// 1024–1499px: partner names in the header wrap onto two lines
-// (e.g. «Plain / picture», «TopPhoto / Group») to keep their columns narrow.
-@media (min-width: $breakpoint-compact + 1) and (max-width: 1499px) {
-  .table th.table__partnerHead {
-    white-space: normal;
-    max-width: 84px;
-    line-height: 1.25;
-  }
+// Partner names in the header wrap onto several lines (e.g. «Plain /
+// picture», «TopPhoto / Group») to keep their columns narrow: the header
+// row grows a little taller instead of the table growing wider.
+.table th.table__partnerHead {
+  white-space: normal;
+  min-width: 64px;
+  max-width: 96px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 // More than 10 partner columns (see isDensePartnerTable): narrower side

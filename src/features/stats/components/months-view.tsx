@@ -5,6 +5,7 @@ import { formatMoney, formatMoneyShort, formatMonth } from '@/utils/format';
 import type { MonthStat } from '../utils/aggregate';
 import { isDensePartnerTable } from '../utils/partner-columns';
 import { partnerLabel } from '../utils/shoot-labels';
+import { BreakableName } from './breakable-name';
 import { MonthsChart } from './months-chart';
 import { TableWrap } from './table-wrap';
 import styles from './table.module.scss';
@@ -145,8 +146,11 @@ export const MonthsView = ({
                 {t('col.revenue')}
               </th>
               {partners.map((p) => (
-                <th key={p} className={styles.table__num}>
-                  {partnerLabel(p, t)}
+                <th
+                  key={p}
+                  className={`${styles.table__num} ${styles.table__partnerHead}`}
+                >
+                  <BreakableName name={partnerLabel(p, t)} />
                 </th>
               ))}
             </tr>
