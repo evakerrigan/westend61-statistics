@@ -27,7 +27,7 @@
 `evakerrigan/westend61-statistics`:
 
 1. GitHub → репозиторий → **Settings** → **Pages**.
-2. **Source:** Deploy from a branch, **Branch:** `main`, папка `/ (root)` → **Save**.
+2. **Source:** Deploy from a branch, **Branch:** `master`, папка `/ (root)` → **Save**.
 3. Через 1–2 минуты политика будет по адресу
    `https://evakerrigan.github.io/westend61-statistics/store/privacy-policy.html`.
    Открыть ссылку и проверить, что страница видна.
