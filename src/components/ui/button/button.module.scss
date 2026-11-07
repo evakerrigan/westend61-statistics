@@ -1,0 +1,154 @@
+@use '../../../styles/variables' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  font-family: $font-family-base;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  min-height: 40px;
+  outline: none;
+
+  &__label {
+    line-height: 1;
+  }
+
+  &__icon-left,
+  &__icon-right {
+    display: inline-flex;
+
+    svg {
+      stroke: currentColor !important;
+    }
+
+    svg * {
+      stroke: currentColor !important;
+    }
+  }
+
+  &__icon-left {
+    margin-right: 14px;
+  }
+
+  &__icon-right {
+    margin-left: 8px;
+  }
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button--primary {
+  border: none !important;
+}
+
+.button--primary:hover:not(:disabled) {
+}
+
+.button--primary:active:not(:disabled) {
+}
+
+.button--secondary {
+  border: 1px solid !important;
+}
+
+.button--secondary:hover:not(:disabled) {
+}
+
+.button--secondary:active:not(:disabled) {
+}
+
+.button--flattened {
+  background-color: transparent !important;
+  padding: 5px 12px 4px 6px;
+  border: 1px solid !important;
+  min-height: auto;
+  font-size: 11px;
+
+  .button__icon-left,
+  .button__icon-right {
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  &:hover:not(:disabled) {
+    background-color: transparent !important;
+  }
+
+  &:active:not(:disabled) {
+    background-color: transparent !important;
+  }
+}
+
+.button--icon {
+  border: none !important;
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  margin-right: 0;
+
+  .button__icon-left,
+  .button__icon-right {
+    margin: 0;
+  }
+
+  .button__label {
+    display: none;
+  }
+
+  &:hover:not(:disabled) {
+  }
+
+  &:active:not(:disabled) {
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.2 !important;
+  }
+
+  svg * {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.2 !important;
+  }
+}
+
+.button--label-centered {
+  position: relative;
+  justify-content: center;
+
+  .button__label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: max-content;
+    line-height: 1;
+  }
+
+  .button__icon-left {
+    position: absolute;
+    left: 12px;
+    margin-right: 0;
+  }
+
+  .button__icon-right {
+    position: absolute;
+    right: 12px;
+    margin-left: 0;
+  }
+}

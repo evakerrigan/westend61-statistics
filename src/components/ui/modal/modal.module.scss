@@ -1,0 +1,42 @@
+@use '../../../styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  box-shadow: $box-shadow-lg;
+  width: min(360px, 92vw);
+}
+
+.content {
+  padding: 30px 24px 24px 24px;
+}
+
+.title {
+  font-size: $font-size-base;
+  text-align: center;
+  margin: 0 0 27px 0;
+}
+
+.body {
+  text-align: center;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm;
+  padding: 0 $spacing-lg $spacing-lg $spacing-lg;
+}
+
+.footer > * {
+  width: 100%;
+}

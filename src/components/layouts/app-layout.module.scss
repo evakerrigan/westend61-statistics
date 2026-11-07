@@ -1,0 +1,15 @@
+@use '../../styles/variables' as *;
+
+.appLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: $color-main-bg;
+
+  &__content {
+    flex: 1;
+    padding: $spacing-lg;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

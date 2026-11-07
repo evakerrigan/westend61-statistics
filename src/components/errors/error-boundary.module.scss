@@ -1,0 +1,45 @@
+@use '../../styles/variables' as *;
+
+.error-boundary {
+  padding: $spacing-md;
+  margin: $spacing-md;
+  background-color: $danger-color-bg;
+  color: $danger-color;
+  border: solid $danger-color;
+
+  &__title {
+    margin: 0 0 $spacing-sm 0;
+    font-size: $font-size-base;
+  }
+
+  &__message {
+    margin: 0 0 $spacing-md 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__button {
+    padding: $spacing-sm $spacing-md;
+    border: solid;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+
+    &:hover {
+      background-color: $color-main-bg;
+    }
+
+    &--primary {
+      border-color: $danger-color;
+      background: $danger-color;
+
+      &:hover {
+        background: $danger-color-dark;
+      }
+    }
+  }
+}
