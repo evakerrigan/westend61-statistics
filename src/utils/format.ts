@@ -24,7 +24,7 @@ const wholeMoneyFormats = {
   }),
 };
 
-/** Whole dollars, for chart axes: `$1,233` / `1 233 $` */
+/** Whole euros, for chart axes: `€1,233` / `1 233 €` */
 export const formatMoneyShort = (value: number) =>
   wholeMoneyFormats[getActiveLanguage()].format(value);
 

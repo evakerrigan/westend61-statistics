@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useI18n } from '@/hooks/use-i18n';
 import type { MessageKey } from '@/lib/i18n';
-import { formatMoney, formatMonth } from '@/utils/format';
+import { formatMoney, formatMoneyShort, formatMonth } from '@/utils/format';
 import type { MonthStat } from '../utils/aggregate';
 import { isDensePartnerTable } from '../utils/partner-columns';
 import { partnerLabel } from '../utils/shoot-labels';
@@ -95,7 +95,7 @@ export const MonthsView = ({
         months={visible}
         value={(m) => m.revenue}
         formatValue={formatMoney}
-        formatTick={(tick) => `$${tick}`}
+        formatTick={formatMoneyShort}
         seriesLabel={t('months.legendRevenue')}
         portfolio={portfolio}
         tooltipExtra={(m) => (
