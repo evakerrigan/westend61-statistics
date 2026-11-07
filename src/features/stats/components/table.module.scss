@@ -1,0 +1,291 @@
+@use '../../../styles/variables' as *;
+
+.tableWrap {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  overflow-x: auto;
+  // Its own scrollbar is replaced by the floating one below (see TableWrap);
+  // wheel and trackpad scrolling still work.
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Holds the table and its floating scrollbar, so the scrollbar stays sticky
+// only while the table is on screen.
+.tableBox {
+  position: relative;
+}
+
+// Floating horizontal scrollbar: sticks to the bottom of the window while
+// the table is on screen, settles under the table at its end.
+.tableScrollbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: $color-main-bg;
+
+  &__spacer {
+    height: 1px;
+  }
+}
+
+.table {
+  width: 100%;
+  // Separate borders: with collapsed ones the table paints the borders, and
+  // they'd stay behind when the pinned header cells move (see TableWrap).
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th,
+  td {
+    padding: $spacing-sm $spacing-md;
+    text-align: left;
+    border-bottom: 1px solid $color-border;
+    vertical-align: middle;
+  }
+
+  th {
+    font-size: 12px;
+    font-weight: 600;
+    color: $color-text-secondary;
+    white-space: nowrap;
+    // Pinned header: TableWrap moves the cells down while the page scrolls
+    // past the table. An opaque background and z-index cover the rows below.
+    position: relative;
+    z-index: 2;
+    background: $color-surface;
+    transform: translateY(var(--sticky-offset, 0));
+  }
+
+  th.table__revenue {
+    background: $color-revenue-bg;
+  }
+
+  // Pinned first column (shoot / photo preview, month): sticks to the left
+  // edge while the table scrolls sideways. Above the scrolled cells, below
+  // the pinned header; the corner cell is above both.
+  th.table__pinned,
+  td.table__pinned {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: $color-surface;
+  }
+
+  th.table__pinned {
+    z-index: 3;
+  }
+
+  // Soft shadow under the header while it's pinned. Negative spread keeps it
+  // from spilling sideways onto the neighbouring cells.
+  thead[data-stuck] th {
+    box-shadow: 0 6px 6px -6px var(--shadow-color-strong);
+  }
+
+  // Soft shadow on the right of the pinned column once the table is
+  // scrolled sideways (TableWrap sets `data-scrolled`).
+  [data-scrolled] & .table__pinned {
+    box-shadow: 6px 0 6px -6px var(--shadow-color-strong);
+  }
+
+  [data-scrolled] & thead[data-stuck] th.table__pinned {
+    box-shadow:
+      0 6px 6px -6px var(--shadow-color-strong),
+      6px 0 6px -6px var(--shadow-color-strong);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  &__num {
+    text-align: right !important;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  &__sort {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-align: inherit;
+    font-weight: inherit;
+    color: inherit;
+    font-size: inherit;
+
+    &:hover {
+      color: $color-text;
+    }
+
+    &:hover .table__sortHint {
+      opacity: 1;
+    }
+  }
+
+  // Arrow on the column the table is sorted by.
+  &__sortArrow {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    color: $color-chart;
+  }
+
+  // Faint arrow on other sortable columns, shown on hover. Positioned out
+  // of the flow so the hidden arrow doesn't widen the column.
+  &__sortHint {
+    position: absolute;
+    left: 100%;
+    margin-left: 2px;
+    font-size: 13px;
+    line-height: 1;
+    color: $color-text-muted;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  &__sortActive {
+    color: $color-chart;
+  }
+
+  // Values of the partner the table is sorted by.
+  &__sorted {
+    color: $color-chart !important;
+    font-weight: 600;
+  }
+
+  &__clickable {
+    cursor: pointer;
+
+    &:hover td {
+      background: $color-row-hover;
+    }
+
+    &:hover td.table__revenue {
+      background: $color-revenue-bg-hover;
+    }
+  }
+
+  // Fixed size: the global `img { max-width: 100% }` would otherwise let a
+  // narrow table squeeze the preview into a sliver.
+  &__thumb {
+    width: 56px;
+    min-width: 56px;
+    max-width: none;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    background: $color-border;
+  }
+
+  &__thumbUnsold {
+    filter: grayscale(1);
+    opacity: 0.6;
+  }
+
+  &__primary {
+    font-weight: 600;
+    color: $color-text;
+    line-height: 1.4;
+  }
+
+  &__secondary {
+    font-size: 12px;
+    line-height: 1.4;
+    color: $color-text-muted;
+  }
+
+  // Smaller text for secondary columns, to keep the table narrow.
+  &__compact {
+    font-size: 12px;
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    white-space: nowrap;
+  }
+
+  // Label/value pairs stacked in one cell: labels line up in one column,
+  // values in the next.
+  &__pairs {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 2px $spacing-sm;
+    align-items: baseline;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__pairsValue {
+    text-align: right;
+  }
+
+  &__stackLabel {
+    font-size: 12px;
+    color: $color-text-muted;
+  }
+
+  &__link {
+    color: $color-chart;
+  }
+
+  // The «Доход» column: bold, on a soft green band so it stands out.
+  &__revenue {
+    font-weight: 700;
+    background: $color-revenue-bg;
+  }
+
+  &__empty {
+    padding: $spacing-xl !important;
+    text-align: center !important;
+    color: $color-text-muted;
+  }
+}
+
+.table__stack {
+  align-items: flex-start;
+}
+
+.table__num .table__stack {
+  align-items: flex-end;
+}
+
+// Compact layout below 1024px: tighter cells and a capped shoot / photo
+// column whose long names wrap.
+@media (max-width: $breakpoint-compact) {
+  .table th,
+  .table td {
+    padding: $spacing-sm 10px;
+  }
+
+  .table__titleCell {
+    max-width: 300px;
+  }
+}
+
+// 1024–1499px: partner names in the header wrap onto two lines
+// (e.g. «Plain / picture», «TopPhoto / Group») to keep their columns narrow.
+@media (min-width: $breakpoint-compact + 1) and (max-width: 1499px) {
+  .table th.table__partnerHead {
+    white-space: normal;
+    max-width: 84px;
+    line-height: 1.25;
+  }
+}
+
+// More than 10 partner columns (see isDensePartnerTable): narrower side
+// padding so the table still fits a 1600px screen.
+.table.table__dense th,
+.table.table__dense td {
+  padding-left: 6px;
+  padding-right: 6px;
+}

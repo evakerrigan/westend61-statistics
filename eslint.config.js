@@ -12,6 +12,7 @@ export default tseslint.config([
       'dist/**',
       'build/**',
       'coverage/**',
+      'samples/**',
       '*.config.js',
       '*.config.ts',
       'src/vite-env.d.ts',

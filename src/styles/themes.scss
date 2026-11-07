@@ -1,0 +1,85 @@
+// Цвета светлой и тёмной темы. Тема выбирается атрибутом `data-theme` на
+// <html> (его ставит `lib/theme.ts`); без него — по настройке системы.
+
+@mixin light {
+  color-scheme: light;
+  --color-main-bg: #f7f7f7;
+  --color-surface: #ffffff;
+  --color-border: #e6e6e3;
+  --color-card-border: #d6d5d0;
+  --color-text: #0b0b0b;
+  --color-text-secondary: #52514e;
+  --color-text-muted: #8a8984;
+  --color-accent: #0b0b0b;
+  --color-accent-text: #ffffff;
+  --color-chart: #2a78d6;
+  --color-chart-sales: #6250d6;
+  --color-row-hover: #f3f3f1;
+  --color-revenue-bg: #eef7f0;
+  --color-revenue-bg-hover: #e3f1e6;
+  --color-portfolio-fill: rgba(27, 175, 122, 0.16);
+  --color-portfolio-line: #1baf7a;
+  // Lines of a chart with several series, in this order.
+  --color-series-1: #2a78d6;
+  --color-series-2: #eb6834;
+  --color-series-3: #1baf7a;
+  --color-series-4: #eda100;
+  --color-series-5: #e87ba4;
+  --color-series-6: #008300;
+  --color-series-7: #6250d6;
+  --color-series-8: #e34948;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --danger-color: #c24f59;
+  --danger-color-bg: #fef2f3;
+  --danger-color-dark: #672a30;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-strong: rgba(0, 0, 0, 0.15);
+}
+
+@mixin dark {
+  color-scheme: dark;
+  --color-main-bg: #141413;
+  --color-surface: #1e1e1c;
+  --color-border: #34332f;
+  --color-card-border: #4a4945;
+  --color-text: #f0efec;
+  --color-text-secondary: #c3c2b7;
+  --color-text-muted: #8f8e86;
+  --color-accent: #f0efec;
+  --color-accent-text: #141413;
+  --color-chart: #3987e5;
+  --color-chart-sales: #9085e9;
+  --color-row-hover: #262624;
+  --color-revenue-bg: #1b2a1f;
+  --color-revenue-bg-hover: #213428;
+  --color-portfolio-fill: rgba(25, 158, 112, 0.22);
+  --color-portfolio-line: #199e70;
+  --color-series-1: #3987e5;
+  --color-series-2: #d95926;
+  --color-series-3: #199e70;
+  --color-series-4: #c98500;
+  --color-series-5: #d55181;
+  --color-series-6: #008300;
+  --color-series-7: #9085e9;
+  --color-series-8: #e66767;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --danger-color: #e66767;
+  --danger-color-bg: #3a1f22;
+  --danger-color-dark: #f4b8bd;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-color-strong: rgba(0, 0, 0, 0.55);
+}
+
+:root {
+  @include light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark;
+}

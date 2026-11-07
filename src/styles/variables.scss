@@ -1,11 +1,28 @@
-// Цвета из дизайн-системы
+// Цвета из дизайн-системы. Сами значения для светлой и тёмной темы — в
+// themes.scss; здесь только ссылки на них, чтобы тема менялась на лету.
 
-$color-main-bg: #f7f7f7; // Светлый фон главной области
+$color-main-bg: var(--color-main-bg); // Фон главной области
+$color-surface: var(--color-surface); // Карточки и таблицы
+$color-border: var(--color-border); // Разделители, линии сетки
+$color-card-border: var(--color-card-border); // Рамка плиток на телефоне
+$color-text: var(--color-text);
+$color-text-secondary: var(--color-text-secondary);
+$color-text-muted: var(--color-text-muted);
+$color-accent: var(--color-accent); // Основные кнопки
+$color-accent-text: var(--color-accent-text);
+$color-chart: var(--color-chart); // Столбцы графика, ссылки
+$color-chart-sales: var(--color-chart-sales); // Столбцы количества продаж
+$color-row-hover: var(--color-row-hover);
+$color-revenue-bg: var(--color-revenue-bg); // Фон колонки «Доход»
+$color-revenue-bg-hover: var(--color-revenue-bg-hover);
+$color-overlay: var(--color-overlay); // Затемнение под модальным окном
+$color-portfolio-fill: var(--color-portfolio-fill); // Фон «фото в портфеле»
+$color-portfolio-line: var(--color-portfolio-line);
 
 //стили ErrorBoundary
-$danger-color: #c24f59;
-$danger-color-bg: #fef2f3;
-$danger-color-dark: #672a30;
+$danger-color: var(--danger-color);
+$danger-color-bg: var(--danger-color-bg);
+$danger-color-dark: var(--danger-color-dark);
 
 // Типографика
 $font-family-base:
@@ -25,11 +42,17 @@ $spacing-lg: 24px;
 $spacing-xl: 32px;
 
 // Тени
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-$box-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+$box-shadow: 0 2px 4px var(--shadow-color);
+$box-shadow-lg: 0 4px 8px var(--shadow-color-strong);
 
 // Breakpoints
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+// Below this width tables and summary tiles switch to a compact layout
+// (keep in sync with COMPACT_QUERY in hooks/use-media-query.ts).
+$breakpoint-compact: 1023px;
+
+// Widest the app content gets; the footer lines up with it.
+$app-max-width: 1600px;

@@ -1,0 +1,24 @@
+@use '../../../styles/variables' as *;
+
+.toggleButton {
+  min-width: 40px;
+  padding: 0 10px !important;
+  height: 40px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid $color-border !important;
+  background: $color-surface !important;
+  color: $color-text;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background: $color-row-hover !important;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-chart;
+    outline-offset: 2px;
+  }
+}

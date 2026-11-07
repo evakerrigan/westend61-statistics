@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'reset';
+@use 'themes';
 
 * {
   box-sizing: border-box;
@@ -14,8 +15,16 @@ body {
   font-family: $font-family-base;
   font-size: $font-size-base;
   background-color: $color-main-bg;
+  color: $color-text;
   margin: 0;
   padding: 0;
+}
+
+// Form controls don't inherit text colour by default.
+button,
+input,
+select {
+  color: inherit;
 }
 
 h1,

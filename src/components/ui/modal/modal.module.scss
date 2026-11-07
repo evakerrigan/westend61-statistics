@@ -3,7 +3,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: $color-overlay;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
 }
 
 .modal {
-  background: #fff;
+  background: $color-surface;
   box-shadow: $box-shadow-lg;
   width: min(360px, 92vw);
 }

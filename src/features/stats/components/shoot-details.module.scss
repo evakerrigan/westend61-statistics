@@ -1,0 +1,176 @@
+@use '../../../styles/variables' as *;
+
+.hint {
+  color: $color-text-secondary;
+  margin: 0 0 $spacing-md 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-md;
+}
+
+.input {
+  min-width: 260px;
+  min-height: 40px;
+  padding: 8px 12px;
+  font: inherit;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  background: $color-surface;
+
+  &:focus {
+    outline: 2px solid $color-chart;
+    outline-offset: -1px;
+  }
+}
+
+.merged {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-md;
+
+  &__label {
+    color: $color-text-secondary;
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: 4px 4px 4px 10px;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 6px;
+  }
+
+  &__remove {
+    padding: 2px 8px !important;
+    border-radius: 4px;
+    font-size: 12px;
+    color: $color-text-secondary;
+
+    &:hover {
+      background: $color-row-hover !important;
+      color: $color-text;
+    }
+  }
+}
+
+.count {
+  color: $color-text-secondary;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: $color-text-muted;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: $spacing-md;
+}
+
+.card {
+  position: relative;
+  display: block;
+  color: $color-text;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: $spacing-sm;
+
+  &:hover {
+    text-decoration: none;
+    border-color: $color-text-muted;
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: $spacing-sm;
+    background: $color-border;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-sm;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__file {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    font-size: 12px;
+    line-height: 1.4;
+    color: $color-text-muted;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__check {
+    position: absolute;
+    top: $spacing-md;
+    left: $spacing-md;
+    width: 18px;
+    height: 18px;
+    accent-color: $color-chart;
+    cursor: pointer;
+  }
+
+  &__link {
+    color: $color-chart;
+  }
+}
+
+.cardUnsold {
+  .card__image {
+    filter: grayscale(1);
+    opacity: 0.6;
+  }
+
+  &:hover {
+    border-color: $color-border;
+  }
+}
+
+.cardSelectable {
+  cursor: pointer;
+}
+
+.cardSelected {
+  border-color: $color-chart;
+  box-shadow: 0 0 0 1px $color-chart;
+
+  &:hover {
+    border-color: $color-chart;
+  }
+}
+
+// Narrow screens: inputs and selects take the whole row.
+@media (max-width: 647px) {
+  .input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}

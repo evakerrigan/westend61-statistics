@@ -1,0 +1,212 @@
+@use '../../../styles/variables' as *;
+
+.stats {
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  margin: 0 0 $spacing-sm 0;
+}
+
+// Rows of content-sized tiles: totals first, partners on the second row.
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.tile {
+  min-width: 120px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: $spacing-md $spacing-lg $spacing-md $spacing-md;
+
+  &__label {
+    font-size: 12px;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-text;
+    white-space: nowrap;
+  }
+
+  &__hero {
+    font-size: 2rem;
+  }
+
+  &__of {
+    font-size: $font-size-base;
+    font-weight: 400;
+    color: $color-text-muted;
+  }
+}
+
+// Compact layout below 1024px: smaller tiles, closer together.
+@media (max-width: $breakpoint-compact) {
+  .tiles {
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  .tile {
+    min-width: 96px;
+    padding: $spacing-sm $spacing-md $spacing-sm $spacing-sm;
+
+    &__label {
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    &__value {
+      font-size: 1.15rem;
+    }
+
+    &__hero {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Macro and micro under the overview tiles: the same totals, one row each.
+.split {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: $spacing-md;
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    thead th {
+      font-size: 12px;
+      font-weight: 600;
+      color: $color-text-secondary;
+      border-bottom: 1px solid $color-border;
+    }
+
+    tbody tr + tr > * {
+      border-top: 1px solid $color-border;
+    }
+
+    tbody th {
+      font-weight: 600;
+      color: $color-text;
+    }
+
+    td {
+      color: $color-text;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  // Below 900px: one table per collection, the collection name on top and the
+  // column names as row labels on the left, values on the right.
+  &__tableVertical {
+    thead th {
+      font-size: $font-size-base;
+      color: $color-text;
+    }
+
+    tbody th {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 400;
+      color: $color-text-secondary;
+      white-space: normal;
+    }
+
+    td {
+      text-align: right;
+    }
+  }
+
+  &__strong {
+    font-weight: 700;
+  }
+}
+
+// The two vertical tables (below 900px): side by side, one under the other
+// only below 400px.
+.splitPair {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  > .split {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 399px) {
+  .splitPair {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: $breakpoint-compact) {
+  .split {
+    margin-bottom: $spacing-sm;
+
+    &__table {
+      th,
+      td {
+        padding: $spacing-xs $spacing-sm;
+      }
+    }
+  }
+}
+
+.notice {
+  padding: $spacing-sm $spacing-md;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-left: 3px solid $color-chart;
+  border-radius: 4px;
+  color: $color-text-secondary;
+}
+
+.tabs {
+  display: flex;
+  // On a phone the tabs don't fit one row.
+  flex-wrap: wrap;
+  column-gap: $spacing-lg;
+  border-bottom: 1px solid $color-border;
+  margin: $spacing-lg 0 $spacing-md 0;
+}
+
+.tab {
+  padding: $spacing-sm 0 !important;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent !important;
+  color: $color-text-secondary;
+  font-weight: 600;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.tabActive {
+  color: $color-text;
+  border-bottom-color: $color-text !important;
+}

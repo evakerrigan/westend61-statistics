@@ -26,3 +26,9 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Saved Westend61 pages (personal data)
+samples
+
+# Packed extension for the Chrome Web Store
+release

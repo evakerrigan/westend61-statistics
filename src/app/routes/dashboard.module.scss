@@ -1,0 +1,19 @@
+@use '../../styles/variables' as *;
+
+.dashboard {
+  width: 100%;
+  max-width: $app-max-width;
+
+  &__empty {
+    padding: $spacing-xl;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    color: $color-text-secondary;
+    text-align: center;
+
+    p {
+      margin: 0;
+    }
+  }
+}

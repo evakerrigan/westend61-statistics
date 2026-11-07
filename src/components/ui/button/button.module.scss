@@ -46,22 +46,32 @@
 
 .button--primary {
   border: none !important;
+  background-color: $color-accent;
+  color: $color-accent-text;
+  font-weight: 600;
 }
 
 .button--primary:hover:not(:disabled) {
+  opacity: 0.85;
 }
 
 .button--primary:active:not(:disabled) {
+  opacity: 0.7;
 }
 
 .button--secondary {
   border: 1px solid !important;
+  border-color: $color-border !important;
+  background-color: $color-surface;
+  color: $color-text;
 }
 
 .button--secondary:hover:not(:disabled) {
+  background-color: $color-row-hover;
 }
 
 .button--secondary:active:not(:disabled) {
+  background-color: $color-border;
 }
 
 .button--flattened {

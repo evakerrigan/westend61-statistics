@@ -1,0 +1,169 @@
+@use '../../../styles/variables' as *;
+
+// Card layout for narrow screens (below 648px): every table row becomes a
+// card, and the table header becomes a sort bar.
+
+.sortBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+
+  &__label {
+    font-size: 12px;
+    color: $color-text-secondary;
+    white-space: nowrap;
+  }
+
+  &__select {
+    flex: 1;
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px 10px;
+    font: inherit;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    background: $color-surface;
+  }
+
+  &__direction {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid $color-border !important;
+    border-radius: 8px;
+    background: $color-surface !important;
+    color: $color-chart;
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// A clear edge and a soft shadow, so cards stand apart from the page.
+.card {
+  background: $color-surface;
+  border: 1px solid $color-card-border;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+
+  &__head {
+    display: flex;
+    gap: $spacing-md;
+    align-items: flex-start;
+    padding: $spacing-md;
+  }
+
+  &__clickable {
+    cursor: pointer;
+
+    &:hover {
+      background: $color-row-hover;
+    }
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm $spacing-md;
+    padding: 0 $spacing-md $spacing-md;
+  }
+
+  // Partner amounts, set apart from the main stats by a line.
+  &__partners {
+    border-top: 1px solid $color-border;
+    padding-top: $spacing-sm;
+  }
+
+  &__details {
+    border-top: 1px solid $color-border;
+    background: $color-main-bg;
+    padding: $spacing-md;
+  }
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: $spacing-sm;
+  min-width: 0;
+
+  &__label {
+    font-size: 12px;
+    color: $color-text-muted;
+    white-space: nowrap;
+  }
+
+  &__value {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+// Revenue square on the right of the card's top row, as tall as the preview.
+.revenueBox {
+  flex-shrink: 0;
+  min-width: 56px;
+  height: 56px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 6px;
+  background: $color-revenue-bg;
+  white-space: nowrap;
+
+  &__label {
+    font-size: 10px;
+    color: $color-text-muted;
+  }
+
+  &__value {
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.revenueBoxSorted {
+  .revenueBox__label,
+  .revenueBox__value {
+    color: $color-chart;
+  }
+}
+
+.statSorted {
+  .stat__label,
+  .stat__value {
+    color: $color-chart;
+    font-weight: 700;
+  }
+}
+
+// Phones: one stat per line, so long values (durations, shoot names) fit.
+@media (max-width: 479px) {
+  .card__stats {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .stat__value {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

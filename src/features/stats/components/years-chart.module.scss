@@ -1,0 +1,130 @@
+@use '../../../styles/variables' as *;
+
+.legendButton {
+  font-size: inherit;
+  color: inherit;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+// A hidden line: its legend entry stays, faded and struck through.
+.legendOff {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+// The current year isn't over: its sales are still coming in.
+.lineDashed {
+  stroke-dasharray: 4 4;
+}
+
+// The other lines while one is hovered in the legend.
+.dimmed {
+  opacity: 0.15;
+}
+
+.dot {
+  position: absolute;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px $color-surface;
+  transform: translate(-50%, 50%);
+  pointer-events: none;
+}
+
+.startLabel {
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, -10px);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  // A halo in the background colour keeps it readable over other lines.
+  text-shadow:
+    0 0 3px $color-surface,
+    0 0 3px $color-surface;
+  pointer-events: none;
+}
+
+.columns {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+}
+
+.slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+}
+
+.crosshair {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 1px solid $color-text-muted;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// Beside the crosshair rather than above it: with many lines it's tall.
+.slot .tooltip {
+  top: 0;
+  bottom: auto;
+  left: calc(50% + 12px);
+  transform: none;
+}
+
+// Past the middle of the chart the tooltip opens to the left.
+.slot .tooltipLeft {
+  left: auto;
+  right: calc(50% + 12px);
+}
+
+.tooltipRow {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.tooltipSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.tooltipValue {
+  font-weight: 600;
+  text-align: right;
+}
+
+.note {
+  margin: $spacing-sm 0 0 0;
+  font-size: 12px;
+  color: $color-text-muted;
+}

@@ -2,6 +2,7 @@
 
 .appLayout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-color: $color-main-bg;
 
@@ -11,5 +12,49 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  &__footer {
+    padding: $spacing-md $spacing-lg $spacing-lg;
+    border-top: 1px solid $color-border;
+    font-size: 12px;
+    color: $color-text-muted;
+
+    a {
+      color: $color-chart;
+    }
+  }
+
+  // As wide as the app content, so the author and the version line up with
+  // its edges. Author on the left, version on the right; stacked on a
+  // narrow screen.
+  &__footerInner {
+    max-width: $app-max-width;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: $spacing-xs $spacing-lg;
+  }
+
+  &__disclaimer {
+    margin-top: $spacing-xs;
+    font-size: 11px;
+  }
+
+  &__version {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 647px) {
+  .appLayout__content {
+    padding: $spacing-md $spacing-sm;
+  }
+
+  .appLayout__footer {
+    padding-left: $spacing-sm;
+    padding-right: $spacing-sm;
   }
 }

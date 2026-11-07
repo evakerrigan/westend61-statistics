@@ -1,0 +1,222 @@
+@use '../../../styles/variables' as *;
+
+$plot-height: 240px;
+$axis-width: 48px;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.titleSpaced {
+  margin-bottom: $spacing-md;
+}
+
+.ranges {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.range {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid $color-border !important;
+  background: $color-surface !important;
+  color: $color-text-secondary;
+  font-size: 12px;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.rangeActive {
+  background: $color-accent !important;
+  border-color: $color-accent !important;
+  color: $color-accent-text !important;
+}
+
+.chart {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: $spacing-lg $spacing-md $spacing-md $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-md;
+  font-size: 12px;
+  color: $color-text-secondary;
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  &__bar {
+    background: $color-chart;
+  }
+
+  &__area {
+    background: $color-portfolio-fill;
+    border: 2px solid $color-portfolio-line;
+  }
+}
+
+// Number-of-sales chart: violet bars instead of blue.
+.toneSales {
+  .bar,
+  .legend__bar {
+    background: $color-chart-sales;
+  }
+}
+
+.plot {
+  position: relative;
+  height: $plot-height;
+  margin-left: $axis-width;
+}
+
+// Room for the portfolio scale on the right.
+.plotWithRightAxis {
+  margin-right: $axis-width;
+}
+
+.gridline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid $color-border;
+}
+
+.tick {
+  position: absolute;
+  right: 100%;
+  margin-right: $spacing-sm;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: $color-text-muted;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tickRight {
+  position: absolute;
+  left: 100%;
+  margin-left: $spacing-sm;
+  transform: translateY(50%);
+  font-size: 11px;
+  color: $color-text-muted;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+// Portfolio size: a soft green area behind the bars.
+.area {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+
+  &__fill {
+    fill: $color-portfolio-fill;
+  }
+
+  &__line {
+    fill: none;
+    stroke: $color-portfolio-line;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+}
+
+.columns {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1px;
+}
+
+.bar {
+  width: 100%;
+  max-width: 24px;
+  background: $color-chart;
+  border-radius: 4px 4px 0 0;
+  transition: opacity 0.15s ease;
+}
+
+.barDim {
+  opacity: 0.45;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  min-width: 140px;
+  padding: $spacing-sm $spacing-md;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  box-shadow: $box-shadow-lg;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipMuted {
+  color: $color-text-secondary;
+}
+
+.labels {
+  display: flex;
+  margin-left: $axis-width;
+  margin-top: $spacing-xs;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: 11px;
+  color: $color-text-muted;
+  white-space: nowrap;
+  overflow: visible;
+}

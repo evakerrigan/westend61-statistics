@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
+  "version": "1.0.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "icons": {
+    "16": "icons/westend-16.png",
+    "32": "icons/westend-32.png",
+    "48": "icons/westend-48.png",
+    "128": "icons/westend-128.png"
+  },
+  "action": {
+    "default_title": "__MSG_extName__",
+    "default_icon": {
+      "16": "icons/westend-16.png",
+      "32": "icons/westend-32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "unlimitedStorage", "scripting"],
+  "host_permissions": [
+    "https://www.westend61.de/*",
+    "https://ingestion.westend61.de/*",
+    "https://ingestionneo.westend61.de/*"
+  ]
+}

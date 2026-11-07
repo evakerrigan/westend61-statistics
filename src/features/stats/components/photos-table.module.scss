@@ -1,0 +1,21 @@
+@use '../../../styles/variables' as *;
+
+.search {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: $spacing-md;
+  padding: 10px 12px;
+  font: inherit;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  background: $color-surface;
+
+  &:focus {
+    outline: 2px solid $color-chart;
+    outline-offset: -1px;
+  }
+}
+
+.photoCell {
+  max-width: 420px;
+}

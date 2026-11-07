@@ -11,7 +11,7 @@ export const NotFoundRoute = () => {
           Sorry, the page you are looking for does not exist or has been moved.
         </p>
 
-        <Button as="a" href="/" className={styles.notFound__link}>
+        <Button as="a" href="#/" className={styles.notFound__link}>
           Back to Home
         </Button>
       </div>

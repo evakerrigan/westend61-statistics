@@ -1,0 +1,31 @@
+@use '../../../styles/variables' as *;
+
+.scrollToTop {
+  position: fixed;
+  right: $spacing-lg;
+  bottom: $spacing-lg;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $color-surface !important;
+  border: 1px solid $color-border !important;
+  box-shadow: $box-shadow-lg;
+  color: $color-text;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px var(--shadow-color-strong);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-chart;
+    outline-offset: 2px;
+  }
+}

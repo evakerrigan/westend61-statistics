@@ -1,0 +1,92 @@
+@use '../../../styles/variables' as *;
+
+.syncPanel {
+  margin-bottom: $spacing-lg;
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  // Buttons with the last-update time right under them.
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    margin: 0 0 $spacing-xs 0;
+  }
+
+  &__meta {
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  // «updated / date» next to the buttons, on two lines.
+  &__updated {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1.3;
+    color: #999;
+    white-space: nowrap;
+  }
+
+  &__note {
+    color: $color-text-muted;
+    font-size: 12px;
+    margin: $spacing-sm 0 0 0;
+  }
+
+  &__progress {
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+  }
+
+  &__progressLabel {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-md;
+    margin-bottom: $spacing-sm;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__bar {
+    height: 6px;
+    background: $color-border;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  &__barFill {
+    height: 100%;
+    background: $color-chart;
+    transition: width 0.3s ease;
+  }
+
+  &__error {
+    margin: $spacing-md 0 0 0;
+    padding: $spacing-sm $spacing-md;
+    background: $danger-color-bg;
+    color: $danger-color-dark;
+    border-radius: 8px;
+  }
+}
