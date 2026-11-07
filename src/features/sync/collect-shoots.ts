@@ -33,6 +33,15 @@ export type ShootsResult = {
   error: 'auth' | 'other' | null;
 };
 
+/**
+ * Submissions that are shoots: with accepted images, and not withdrawn
+ * (a withdrawn submission never went on sale).
+ */
+export const isShootSubmission = (s: {
+  acceptedCount: number;
+  state: string | null;
+}) => s.acceptedCount > 0 && s.state !== 'WITHDRAWN';
+
 /** A submission's images can only change while it is new to us or changed. */
 const isUnchanged = (previous: Shoot | undefined, s: SubmissionSummary) =>
   !!previous &&
@@ -79,7 +88,7 @@ export const collectShoots = async (
 
     // 2. Images of new or changed submissions.
     const withImages = SYSTEMS.flatMap((system) =>
-      (lists[system] ?? []).filter((s) => s.acceptedCount > 0)
+      (lists[system] ?? []).filter(isShootSubmission)
     );
     const toFetch = withImages.filter(
       (s) => !isUnchanged(previousById.get(shootId(s.system, s.number)), s)
@@ -107,7 +116,7 @@ export const collectShoots = async (
         shoots.push(...previous.filter((s) => s.system === system));
         continue;
       }
-      for (const s of list.filter((x) => x.acceptedCount > 0)) {
+      for (const s of list.filter(isShootSubmission)) {
         const id = shootId(system, s.number);
         const photoIds = fetched.get(id) ?? previousById.get(id)?.photoIds;
         if (!photoIds) continue;
@@ -118,6 +127,7 @@ export const collectShoots = async (
           title: s.title,
           state: s.state,
           acceptedCount: s.acceptedCount,
+          updatedAt: s.updatedAt,
           photoIds,
         });
       }

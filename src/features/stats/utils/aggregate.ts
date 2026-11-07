@@ -39,6 +39,13 @@ export type ShootStat = {
   title: string;
   /** Westend61 shows no creation date: always `null` for now. */
   createdAt: string | null;
+  /** “Last Updated” of the submission (`westend` only). */
+  updatedAt: string | null;
+  /**
+   * Creation order of the submission (`westend` only): numbers grow as
+   * submissions are created, and the new system's come after the old one's.
+   */
+  order: number | null;
   /**
    * When the shoot went on sale: the earliest (estimated) go-live date of
    * its images.
@@ -95,6 +102,16 @@ export const UNKNOWN_PARTNER = 'other';
 export const UNMATCHED_KEY = 'unmatched';
 
 /** Shoot key of a submission, from {@link Shoot.id} (`old:58251`). */
+/** Puts every submission of the new system after all of the old one. */
+const NEW_SYSTEM_ORDER = 1_000_000_000;
+
+/**
+ * Sort key for “Updated”: the submission's “Last Updated” date, then its
+ * creation order for equal or unknown dates.
+ */
+export const updatedSortKey = (s: ShootStat) =>
+  `${s.updatedAt ?? ''}#${String(s.order ?? 0).padStart(12, '0')}`;
+
 export const westendShootKey = (id: string) => `westend:${id}`;
 export const manualShootKey = (id: string) => `manual:${id}`;
 
@@ -158,6 +175,10 @@ const combineShoots = (target: ShootStat, sources: ShootStat[]): ShootStat => {
   return {
     ...target,
     createdAt: earliest(all.map((s) => s.createdAt)),
+    updatedAt: all.reduce<string | null>(
+      (d, s) => latest(d, s.updatedAt),
+      null
+    ),
     publishedAt: earliest(all.map((s) => s.publishedAt)),
     publishedCount,
     thumbUrl: photos[0]?.product.thumbUrl ?? target.thumbUrl,
@@ -206,10 +227,13 @@ export const buildStats = (
   shootMerges: ShootMerges = {}
 ): Stats => {
   const portfolioById = new Map(dataset.portfolio.map((p) => [p.id, p]));
+  // A withdrawn submission never went on sale: not a shoot. (Data synced
+  // before they were skipped may still hold some.)
+  const submissions = dataset.shoots.filter((s) => s.state !== 'WITHDRAWN');
 
   // Priority: the user's manual assignment, then the submissions.
   const shootKeyOf = new Map<string, string>();
-  for (const shoot of dataset.shoots) {
+  for (const shoot of submissions) {
     for (const id of shoot.photoIds) {
       shootKeyOf.set(id, westendShootKey(shoot.id));
     }
@@ -254,6 +278,8 @@ export const buildStats = (
     | 'manualId'
     | 'title'
     | 'createdAt'
+    | 'updatedAt'
+    | 'order'
     | 'publishedAt'
     | 'publishedCount'
     | 'unsoldPhotos'
@@ -295,24 +321,39 @@ export const buildStats = (
   const photosOf = (key: string | null) =>
     photos.filter((p) => p.shootKey === key);
 
-  const shoots = dataset.shoots.map((shoot) => {
+  // An image is online when it is in the portfolio. Without a complete
+  // portfolio (it failed to load in full) that can't be told, so every image
+  // with an ID counts as published.
+  const portfolioComplete =
+    dataset.portfolio.length > 0 &&
+    dataset.portfolio.length >= dataset.portfolioSize * 0.95;
+  const isOnline = (id: string) => !portfolioComplete || portfolioById.has(id);
+
+  const shoots = submissions.flatMap((shoot) => {
     const key = westendShootKey(shoot.id);
     // Images the user moved into an own shoot are no longer counted here.
     const ids = shoot.photoIds.filter((id) => shootKeyOf.get(id) === key);
     const shootPhotos = photosOf(key);
+    // Unsold images taken offline since are not part of the shoot any more.
     const unsold = ids
-      .filter((id) => !soldIds.has(id))
+      .filter((id) => !soldIds.has(id) && isOnline(id))
       .map((id): ShootPhoto => {
         const item = portfolioById.get(id);
         return item
           ? portfolioToShootPhoto(item)
           : { id, headline: null, publishedAt: null, thumbUrl: null };
       });
+    const published = shootPhotos.length + unsold.length;
+    // Nothing published (yet): images still in processing, or all of them
+    // moved into own shoots.
+    if (!published) return [];
     return makeShoot(
       {
         key,
         kind: 'westend',
         westendNumber: shoot.number,
+        updatedAt: shoot.updatedAt ?? null,
+        order: (shoot.system === 'new' ? NEW_SYSTEM_ORDER : 0) + shoot.number,
         westendState: shoot.state,
         manualId: null,
         title: shoot.title,
@@ -321,7 +362,7 @@ export const buildStats = (
           ...unsold.map((p) => p.publishedAt),
           ...shootPhotos.map((p) => p.product.createdAt),
         ]),
-        publishedCount: ids.length,
+        publishedCount: published,
         unsoldPhotos: unsold,
       },
       shootPhotos
@@ -353,6 +394,8 @@ export const buildStats = (
           key,
           kind: 'manual',
           westendNumber: null,
+          updatedAt: null,
+          order: null,
           westendState: null,
           manualId: manual.id,
           title: manual.title,
@@ -377,6 +420,8 @@ export const buildStats = (
           key: UNMATCHED_KEY,
           kind: 'unmatched',
           westendNumber: null,
+          updatedAt: null,
+          order: null,
           westendState: null,
           manualId: null,
           // Shown translated in the UI (see `shoot-labels.ts`).

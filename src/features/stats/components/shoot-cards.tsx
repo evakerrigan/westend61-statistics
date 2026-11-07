@@ -133,7 +133,7 @@ export const ShootCards = ({
                   />
                   <CardStat
                     label={t('shoots.col.created')}
-                    value={formatDate(shoot.createdAt)}
+                    value={formatDate(shoot.updatedAt)}
                     highlighted={sorted('createdAt')}
                   />
                   <CardStat

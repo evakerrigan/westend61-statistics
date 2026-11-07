@@ -11,7 +11,7 @@ import {
 } from '@/utils/format';
 import { useHiddenChartYears } from '../hooks/use-hidden-chart-years';
 import { type SortAccessors, useSort } from '../hooks/use-sort';
-import type { ShootStat } from '../utils/aggregate';
+import { updatedSortKey, type ShootStat } from '../utils/aggregate';
 import { shootSubtitle, shootTitle } from '../utils/shoot-labels';
 import {
   buildYearSales,
@@ -219,7 +219,7 @@ const YearShootsTable = ({ shoots }: { shoots: ShootStat[] }) => {
   const accessors = useMemo<SortAccessors<ShootStat>>(
     () => ({
       title: (s) => shootTitle(s, t),
-      createdAt: (s) => s.createdAt ?? s.publishedAt ?? '',
+      createdAt: updatedSortKey,
       onSale: (s) =>
         s.publishedAt
           ? Date.now() - new Date(s.publishedAt.slice(0, 10)).getTime()
@@ -313,7 +313,7 @@ const YearShootsTable = ({ shoots }: { shoots: ShootStat[] }) => {
               </td>
               <td className={styles.table__compact}>
                 <div className={styles.table__stack}>
-                  <span>{formatDate(shoot.createdAt)}</span>
+                  <span>{formatDate(shoot.updatedAt)}</span>
                   <span>{formatDuration(shoot.publishedAt)}</span>
                 </div>
               </td>

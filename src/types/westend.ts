@@ -56,6 +56,8 @@ export type Shoot = {
   state: string | null;
   /** Accepted images, as in the submission list. */
   acceptedCount: number;
+  /** “Last Updated” in the submission list, `YYYY-MM-DD`. */
+  updatedAt?: string | null;
   /** IDs of the accepted images (only they get a Westend61 image ID). */
   photoIds: string[];
 };

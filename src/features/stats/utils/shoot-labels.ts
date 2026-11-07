@@ -19,8 +19,5 @@ export const shootSubtitle = (shoot: ShootStat, t: Translate) => {
 const baseSubtitle = (shoot: ShootStat, t: Translate) => {
   if (shoot.kind === 'unmatched') return t('shoots.sub.unmatched');
   if (shoot.kind === 'manual') return t('shoots.sub.manual');
-  const number = `#${shoot.westendNumber}`;
-  return shoot.westendState === 'WITHDRAWN'
-    ? `${number} · ${t('shoots.sub.withdrawn')}`
-    : number;
+  return `#${shoot.westendNumber}`;
 };

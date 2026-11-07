@@ -41,6 +41,8 @@ export type SubmissionSummary = {
   /** E.g. `DONE`, `WITHDRAWN`, `EDITING`. */
   state: string | null;
   acceptedCount: number;
+  /** “Last Updated”, `YYYY-MM-DD`. */
+  updatedAt: string | null;
 };
 
 export type SubmissionListPage = {
@@ -67,6 +69,47 @@ const rowTitle = (row: Element) => {
     }
   }
   return '';
+};
+
+const isoDate = (year: number, month: number, day: number) => {
+  const y = year < 100 ? 2000 + year : year;
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+};
+
+/**
+ * A list date -> `YYYY-MM-DD`: `8/8/25 11:20 PM`, `10/22/26, 10:30 PM`
+ * (English), `18.01.26 11:59` (German) or `2026-01-18`.
+ */
+export const parseListDate = (text: string) => {
+  const s = text.replace(/\s+/g, ' ').trim();
+  let m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?![\d/])/.exec(s);
+  if (m) return isoDate(+m[3], +m[1], +m[2]);
+  m = /^(\d{1,2})\.(\d{1,2})\.(\d{2,4})(?![\d.])/.exec(s);
+  if (m) return isoDate(+m[3], +m[2], +m[1]);
+  m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
+  if (m) return isoDate(+m[1], +m[2], +m[3]);
+  return null;
+};
+
+/**
+ * “Last Updated”: the cell holding a date — in its tooltip (also where
+ * Bootstrap moves it) or as its text. Rows show no other dates.
+ */
+const rowUpdatedAt = (row: Element) => {
+  for (const cell of row.querySelectorAll('td')) {
+    const candidates = [
+      cell.getAttribute('title'),
+      cell.getAttribute('data-bs-original-title'),
+      cell.getAttribute('data-original-title'),
+      cell.textContent,
+    ];
+    for (const text of candidates) {
+      const date = text ? parseListDate(text) : null;
+      if (date) return date;
+    }
+  }
+  return null;
 };
 
 const rowState = (row: Element) => {
@@ -96,6 +139,7 @@ export const parseSubmissionList = (
       number,
       title: rowTitle(row) || `#${number}`,
       state: rowState(row),
+      updatedAt: rowUpdatedAt(row),
       acceptedCount:
         count(row.querySelector('.assetsAccepted')?.textContent) ?? 0,
     });

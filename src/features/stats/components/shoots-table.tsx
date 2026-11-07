@@ -9,7 +9,7 @@ import type { ManualShoot } from '@/types/westend';
 import { formatDate, formatDuration, formatMoney } from '@/utils/format';
 import type { ManualShootsUpdate } from '../hooks/use-manual-shoots';
 import { type SortAccessors, useSort } from '../hooks/use-sort';
-import type { ShootStat } from '../utils/aggregate';
+import { updatedSortKey, type ShootStat } from '../utils/aggregate';
 import {
   isDensePartnerTable,
   partnerColumnCount,
@@ -49,7 +49,7 @@ export const ShootsTable = ({
   const accessors = useMemo<SortAccessors<ShootStat>>(
     () => ({
       title: (s) => shootTitle(s, t),
-      createdAt: (s) => s.createdAt ?? '',
+      createdAt: updatedSortKey,
       onSale: (s) =>
         s.publishedAt
           ? Date.now() - new Date(s.publishedAt.slice(0, 10)).getTime()
@@ -198,7 +198,7 @@ export const ShootsTable = ({
                   </td>
                   <td className={styles.table__compact}>
                     <div className={styles.table__stack}>
-                      <span>{formatDate(shoot.createdAt)}</span>
+                      <span>{formatDate(shoot.updatedAt)}</span>
                       <span>{formatDuration(shoot.publishedAt)}</span>
                     </div>
                   </td>
