@@ -218,12 +218,10 @@ Westend61 показывает продажи списком, лицензия �
 
 ## Test instructions (для проверяющих)
 
+Поле **Additional instructions** — до 500 знаков, этот текст 487. Поля
+**Username** и **Password** оставить пустыми: аккаунт с реальными продажами
+не отдаём.
+
 ```
-The extension needs a Westend61 photographer account (www.westend61.de, photographer area) to load data; a regular customer account has no sales to show.
-
-1. Log in at https://www.westend61.de as a photographer.
-2. Click the extension icon — a tab with the statistics opens.
-3. Click “Load data”. The extension loads the photographer's earnings, dashboard, portfolio and submissions one request at a time (about a minute), then shows the statistics.
-
-Without a photographer account, the page shows the empty state and the error “Westend61 returned no data. Make sure you are logged in at westend61.de as a photographer.” The store screenshots show the interface with demo data.
+Needs a Westend61 photographer account (a customer account has no sales). 1. Log in at www.westend61.de as a photographer. 2. Click the extension icon. 3. Click "Load data": the extension reads the photographer's own earnings, portfolio and submissions one request at a time (about a minute) and shows the statistics. Without a photographer account it shows: "Make sure you are logged in at westend61.de as a photographer." Store screenshots use demo data. All data stays in the browser.
 ```
