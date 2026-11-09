@@ -44,9 +44,45 @@ const fillMonths = (months: MonthStat[]): MonthStat[] => {
   return result;
 };
 
+const roundMoney = (n: number) => Math.round(n * 100) / 100;
+
+/**
+ * Months summed per calendar year, oldest first. Same shape as a month, with
+ * `YYYY` as the key, so the year chart can reuse the month one.
+ */
+const sumByYear = (months: MonthStat[]): MonthStat[] => {
+  const byYear = new Map<string, MonthStat>();
+  for (const m of months) {
+    const key = m.key.slice(0, 4);
+    const stat = byYear.get(key) ?? {
+      key,
+      revenue: 0,
+      salesCount: 0,
+      byPartner: {},
+    };
+    stat.revenue += m.revenue;
+    stat.salesCount += m.salesCount;
+    for (const [p, amount] of Object.entries(m.byPartner)) {
+      stat.byPartner[p] = (stat.byPartner[p] ?? 0) + amount;
+    }
+    byYear.set(key, stat);
+  }
+  return [...byYear.values()].map((y) => ({
+    ...y,
+    revenue: roundMoney(y.revenue),
+    byPartner: Object.fromEntries(
+      Object.entries(y.byPartner).map(([p, amount]) => [p, roundMoney(amount)])
+    ),
+  }));
+};
+
 /** Images already published by the end of each month. */
 const portfolioAtMonthEnd = (months: MonthStat[], dates: string[]) =>
   months.map((m) => dates.filter((d) => d.slice(0, 7) <= m.key).length);
+
+/** Images already published by the end of each year. */
+const portfolioAtYearEnd = (years: MonthStat[], dates: string[]) =>
+  years.map((y) => dates.filter((d) => d.slice(0, 4) <= y.key).length);
 
 export const MonthsView = ({
   months,
@@ -57,6 +93,8 @@ export const MonthsView = ({
   const [range, setRange] = useState<number>(24);
 
   const allMonths = useMemo(() => fillMonths(months), [months]);
+  const years = useMemo(() => sumByYear(allMonths), [allMonths]);
+  const currentYear = String(new Date().getFullYear());
   const visible = useMemo(
     () => (Number.isFinite(range) ? allMonths.slice(-range) : allMonths),
     [allMonths, range]
@@ -68,9 +106,92 @@ export const MonthsView = ({
         : null,
     [visible, portfolioDates]
   );
+  const yearPortfolio = useMemo(
+    () =>
+      portfolioDates.length ? portfolioAtYearEnd(years, portfolioDates) : null,
+    [years, portfolioDates]
+  );
+
+  /** Revenue tooltip lines: number of sales and the split by partner. */
+  const revenueTooltip = (m: MonthStat) => (
+    <>
+      <div className={chartStyles.tooltipMuted}>
+        {t('months.tooltipSales', { n: m.salesCount })}
+      </div>
+      {partners
+        .filter((p) => m.byPartner[p])
+        .map((p) => (
+          <div key={p} className={chartStyles.tooltipMuted}>
+            {partnerLabel(p, t)}: {formatMoney(m.byPartner[p])}
+          </div>
+        ))}
+    </>
+  );
 
   return (
     <>
+      {years.length > 0 && (
+        <>
+          <h2 className={`${chartStyles.title} ${chartStyles.titleSpaced}`}>
+            {t('months.yearsTitle')}
+          </h2>
+          <div className={chartStyles.years}>
+            <div className={`${styles.tableWrap} ${chartStyles.years__table}`}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>{t('months.col.year')}</th>
+                    <th className={styles.table__num}>{t('col.sales')}</th>
+                    <th
+                      className={`${styles.table__num} ${styles.table__revenue}`}
+                    >
+                      {t('col.revenue')}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...years].reverse().map((y) => (
+                    <tr key={y.key}>
+                      <td>
+                        {y.key}
+                        {y.key === currentYear && (
+                          <span className={chartStyles.yearPartial}>
+                            {t('months.yearPartial')}
+                          </span>
+                        )}
+                      </td>
+                      <td className={styles.table__num}>{y.salesCount}</td>
+                      <td
+                        className={`${styles.table__num} ${styles.table__revenue}`}
+                      >
+                        {formatMoney(y.revenue)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <MonthsChart
+              className={chartStyles.years__chart}
+              months={years}
+              value={(y) => y.revenue}
+              formatValue={formatMoney}
+              formatTick={formatMoneyShort}
+              formatKey={(key) =>
+                key === currentYear
+                  ? `${key} (${t('months.yearPartial')})`
+                  : key
+              }
+              formatAxisKey={String}
+              seriesLabel={t('months.legendRevenue')}
+              portfolio={yearPortfolio}
+              tooltipExtra={revenueTooltip}
+              barLabel={(y) => formatMoneyShort(y.revenue)}
+            />
+          </div>
+        </>
+      )}
+
       <div className={chartStyles.toolbar}>
         <h2 className={chartStyles.title}>{t('months.title')}</h2>
         <div
@@ -99,20 +220,7 @@ export const MonthsView = ({
         formatTick={formatMoneyShort}
         seriesLabel={t('months.legendRevenue')}
         portfolio={portfolio}
-        tooltipExtra={(m) => (
-          <>
-            <div className={chartStyles.tooltipMuted}>
-              {t('months.tooltipSales', { n: m.salesCount })}
-            </div>
-            {partners
-              .filter((p) => m.byPartner[p])
-              .map((p) => (
-                <div key={p} className={chartStyles.tooltipMuted}>
-                  {partnerLabel(p, t)}: {formatMoney(m.byPartner[p])}
-                </div>
-              ))}
-          </>
-        )}
+        tooltipExtra={revenueTooltip}
       />
 
       <h2 className={`${chartStyles.title} ${chartStyles.titleSpaced}`}>

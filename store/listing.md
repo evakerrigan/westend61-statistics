@@ -131,7 +131,7 @@ Westend61 lists your licenses one by one. This extension collects all of them fr
 
 • By shoot — every submission as a shoot: revenue, sales, published and sold photos, revenue per photo, time on sale, split by partner agency. Open a shoot to see its sold photos, and the unsold ones in grey.
 • By photo — every photo that sold, with search and sorting by any column.
-• By month — revenue and number of sales per month, over the size of your portfolio, to see whether more photos mean more money.
+• By year/month — revenue per calendar year, plus revenue and number of sales per month, over the size of your portfolio, to see whether more photos mean more money.
 • By upload year — how the shoots of each year keep selling as they get older.
 • Portfolio overview — total earnings, sales, photos sold, portfolio success (share of photos that sold), average per sold photo and per portfolio photo, earnings by partner.
 
@@ -155,7 +155,7 @@ Westend61 показывает продажи списком, лицензия �
 
 • По съёмкам — каждый сабмишен как съёмка: доход, продажи, опубликованные и проданные фото, доход на одно фото, срок в продаже, разбивка по партнёрским агентствам. Внутри съёмки — проданные фото, а непроданные серым.
 • По фото — все проданные фото с поиском и сортировкой по любой колонке.
-• По месяцам — доход и число продаж по месяцам на фоне размера портфеля: видно, растёт ли доход вместе с портфелем.
+• По годам/месяцам — доход за каждый календарный год, а также доход и число продаж по месяцам на фоне размера портфеля: видно, растёт ли доход вместе с портфелем.
 • По годам загрузки — как продаются съёмки каждого года по мере того, как стареют.
 • Общая статистика — весь доход, продажи, проданные фото, успешность портфеля (доля фото, которые продались), средний доход с проданного фото и на одно фото портфеля, доход по партнёрам.
 
